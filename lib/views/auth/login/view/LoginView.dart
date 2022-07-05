@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:reminisce/constants/color_constants.dart';
 import 'package:reminisce/services/auth.dart';
-import 'package:reminisce/views/home/view/homeview.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -48,10 +48,10 @@ class _LoginDemoState extends State<LoginView> {
             const SizedBox(
               height: 20,
             ),
-           Padding(
+            Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child:  TextField(
+              child: TextField(
                 controller: email,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -59,9 +59,9 @@ class _LoginDemoState extends State<LoginView> {
                     hintText: 'Enter valid email id as abc@gmail.com'),
               ),
             ),
-             Padding(
-              padding:
-                  const EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 controller: password,
@@ -78,7 +78,7 @@ class _LoginDemoState extends State<LoginView> {
               },
               child: const Text(
                 'Forgot Password',
-                style: TextStyle(color: Colors.redAccent, fontSize: 15),
+                style: TextStyle(color: kPrimaryColor, fontSize: 20),
               ),
             ),
             Container(
@@ -89,11 +89,15 @@ class _LoginDemoState extends State<LoginView> {
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
-                  dynamic result = await _auth.signInWithEmailPassword(email.text, password.text);
+                  EasyLoading.show(status: "Signing In");
+                  dynamic result = await _auth.signInWithEmailPassword(
+                      email.text, password.text);
+
                   if (result == null) {
+                    EasyLoading.showError("Could not sign in please try again");
                     print("error signingin");
                   } else {
-                    print(result.uid);
+                    EasyLoading.showSuccess("Welcome");
                   }
                 },
                 child: const Text(
@@ -105,7 +109,14 @@ class _LoginDemoState extends State<LoginView> {
             const SizedBox(
               height: 120,
             ),
-            const Text('New User? Create Account')
+            GestureDetector(
+              onTap: () {
+
+              },
+                child: const Text(
+              'New User? Create Account',
+              style: TextStyle(color: kPrimaryColor, fontSize: 20),
+            ))
           ],
         ),
       ),

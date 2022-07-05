@@ -10,7 +10,7 @@ import 'package:reminisce/views/home/view/homeview.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:reminisce/views/wrapper.dart';
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 Future main() async {
    
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -25,13 +25,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return   StreamProvider<MyUser?>.value(
+    return   StreamProvider<MyUser>.value(
       value: AuthServices().onAuthStateChanged,
-      initialData: null,
+      initialData: MyUser.withID(""),
       child: MaterialApp(
         title: 'Reminsce',
         debugShowCheckedModeBanner: false,
         home:Wrapper(),
+        builder: EasyLoading.init()
       ),
     );
   }
